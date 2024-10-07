@@ -1,0 +1,103 @@
+# Documentation pour l'installation d'une Machine virtuel avec l'ISO : Rocky Linux (boot)
+
+Avant de commencer l'installation nous aurons besoin de télécharger le logiciel pour virtualiser notre machine ainsi que d'un fichier ISO.
+
+Résumer des besoins
+----------
+* Virtual Box
+  * Lien : https://www.oracle.com/virtualization/technologies/vm/downloads/virtualbox-downloads.html
+  * Téléchargement : Dernières version - Oracle VM VirtualBox Base Packages - 7.0.20
+* Rocky Linux (boot)
+  * Lien : https://rockylinux.org/fr/download
+  * Téléchargement : Rocky-9.4-x86_64-boot.iso - version boot
+
+## Création de la machine virtuel
+
+1. Ouvrir le logiciel Oracle VirtualBox, ci-dessous l'interface.
+![](./images/ouvrir-virtual.png)
+
+2. Cliquer sur le bouton "Nouvelle" encadré en rouge, comme ci-dessous.
+![](./images/nouvelle.png)
+
+3. Une nouvelle fenêtre va s'ouvrir (bleu), il faut saisir un nom pour la machine virtuel, dans l'exemple nous avons chosisis "Rocky", puis ont selectionne le chemin de l'image ISO que nous avons téléchargé. Cocher "Skip Unattended Installation". Continuer en cliquant sur le bouton "Suivant" (vert).
+![](./images/open-fenetre.png)
+
+4. Selectionner la memoire ainsi que le nombre de CPU. Attention a rester dans le vert tout en allouant le plus possible pour ne pas être embêté plus tard dans l'installation, comme dans l'exemple. (rouge) Poursuivez en cliquant sur le bouton "Suivant" (vert). 
+![](./images/memoire-processors.png)
+
+5. Pour l'espace du disque dur, laisser les valeurs par defauts, pour éviter tout problème plus tard dans l'installation. Poursuivre en cliquant sur le bouton "Suivant" (vert).
+![](./images/hard-disk.png)
+
+6. C'est terminer pour la création de la machine virtuel. Ont peux voir un recapitulatif de la machine. Poursuivre en cliquant sur le bouton "Finish" (vert).
+![](./images/recapitulatif.png)
+
+7. La machine virtuel à bien été ajouté. (bleu) Double clique dessus pour lancer la machine virtuel.
+![](./images/ajoutVM.png)
+
+## Installation de l'image ISO
+
+1. Une fenêtre c'est ouverte (bleu), selectionner "Install Rocky Linux 9.4" (rouge).z
+![](./images/install.png)
+
+2. On constate que l'image a été boot, ont laisse la machine charger les informations.
+![](./images/boot.png)
+
+3. Ont arrive sur l'interface graphique, ont selectionne la langue. (rouge) On poursuit avec le bouton "Continuer" (vert).
+![](./images/langue.png)
+
+4. Pour passez à l'étape suivante, ont dois remplir les points marqués avec un point d'exclamation (bleu). Nous allons cliquer et parametrer chaque points (rouge).
+![](./images/personnalisation.png)
+
+5. Dans le menu : "Mot de passe administrateur", on renseigne le mot de passe et on le confirme. On coche la case "Permettre les connections SSH avec mot de passe". Poursuivre avec le bouton "Fait" (vert).
+![](./images/motdepasse.png)
+
+6. On change de menu : "Création utilisateur", on rempli le formulaire (rouge). On continue avec le bouton "Fait" (vert).
+![](./images/utilisateur.png)
+
+7. On change de menu : "Installation Destination", on vérifie que le disque soit coché avec une coche noir et on coche "personnalisé" (rouge). On continue avec le bouton "Fait" (vert).
+![](./images/disque.png)
+
+8. On clique sur le bouton "+" (rouge). Cela ouvre une nouvelle fenêtre (bleu). On renseigne les champs, son nom et on attribue 1G (rouge).  Et on valide sur le bouton "Ajouter un point de montage" (vert).
+![](./images/plus.png)
+
+9. La partition "/boot" à bien été ajouter (rouge). On ajoute une autre partition avec le bouton "+" (rouge).
+![](./images/partitionBoot.png)
+
+10. On créer la partition "/" et on lui attribue 12G (rouge). Puis on valide avec "Ajouter un point de montage" (vert).
+![](./images/partitionRacine.png)
+
+11. On créer la partition "/swap" et on lui attribue 5G (rouge). Puis on valide avec "Ajouter un point de montage" (vert).
+![](./images/partitionSwap.png)
+
+12. Une fois toute nos partitions créer, on valide avec le bouton "Fait" (vert).
+![](./images/allPartition.png)
+
+13. Nous avons une nouvelle fenêtre (bleu) qui résume ce que nous avons créer. On valide avec le bouton "Accepter les modifications" (vert).
+![](./images/resumerPartition.png)
+
+14. Nous allons changer la sélection des logiciels (rouge).
+![](./images/select-logiciel.png)
+
+15. Sélectionner serveurs et "Serveur web de base" (rouge). Valider en cliquant sur le bouton "Fait" (vert).
+![](./images/logiciel.png)
+
+16. Il n'y a plus de points marqués, le bouton "Commencer l'installation" n'est plus désactiver, on clique dessus pour la suite (vert).
+![](./images/commencerInstall.png)
+
+17. L'installation est lancé.
+![](./images/installation.png)
+
+18. Fin de l'installation on redémarre le système en cliquant sur le bouton "Redémarer le système" (vert).
+![](./images/fin-install.png)
+
+19. Nous allons maintenant faire en sorte que notres machine physique puisse se connecter a notre machine virtuel. Pour cela nous allons sur le logiciel Oracle VirtualBox, clique droit sur notre machine, cliquer sur configuration (rouge).
+![](./images/configuration.png)
+
+20. Vérifier que vous êtes en mode expert (rouge). Aller dans l'onglet "Réseau" (rouge). Et cliquer sur le bouton "Redirection de ports" (vert).
+![](./images/reseau.png) 
+
+21. Ajouter une nouvelle règle de redirection avec le "+"(rouge), remplisser la règle (bleu) avec le port 2222 qui n'est pas encore attribuer et 22 pour ssh. Et cliquer sur le bouton "Ok" (vert).
+![](./images/port.png) 
+
+22. On ouvre l'invite de commande sur notre machine physique (bleu). On tape la commande "ssh -p 2222 arudy@127.0.0.1" puis notre mot de passe de la machine virtuel (rouge). La connexion a fonctionné (jaune).
+![](./images/connection-ssh.png) 
